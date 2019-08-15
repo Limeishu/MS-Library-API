@@ -12,7 +12,7 @@ const article = {
     data.author.connect = { id: user.id };
 
     if (data.banner.create) {
-      data.banner.create = overWrite.image(data.banner.create, user);
+      data.banner.create = overWrite.image.create(data.banner.create, user);
     }
 
     return data;
@@ -25,7 +25,7 @@ const article = {
     data.author.connect = { id: user.id };
 
     if (data.banner.create) {
-      data.banner.create = overWrite.image(data.banner.create, user);
+      data.banner.create = overWrite.image.create(data.banner.create, user);
     }
 
     if (data.banner.upsert) {

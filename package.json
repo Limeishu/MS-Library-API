@@ -1,6 +1,6 @@
 {
   "name": "pollux",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "index.ts",
   "repository": "git@github.com:geminipedia/pollux.git",
   "description": "A flexable Web API Server for Project Gemini.",

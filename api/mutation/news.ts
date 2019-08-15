@@ -133,6 +133,16 @@ const newsMutation = {
       }
 
       const targetNews: News = await prisma.news(args.where);
+
+      if (!targetNews) {
+        // Write Log
+        throw await log.warn({
+          ip: context.request.ip,
+          code: '#ERR_N001',
+          userId: author.id
+        });
+      }
+
       const permission: PermissionTypePayload = await group.permission.$expand(author, 'news');
       const relation: RelationPayload = await group.relation.$check(author, targetNews.id, 'news');
 
@@ -150,7 +160,7 @@ const newsMutation = {
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `News ${targetNews.title} updated by ${author.displayName}.`,
+        customResult: `News ${targetNews.title} deleted by ${author.displayName}.`,
         userId: author.id
       });
 

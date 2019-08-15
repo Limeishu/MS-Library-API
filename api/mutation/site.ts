@@ -46,7 +46,7 @@ const siteMutation = {
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Site ${args.data.name} create successed.`,
+        customResult: `Site ${args.data.name} created by ${user.displayName}`,
         userId: user.id
       });
 
@@ -103,7 +103,7 @@ const siteMutation = {
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Site ${args.data.name} update successed.`,
+        customResult: `Site ${args.data.name} updated by ${user.displayName}`,
         userId: user.id
       });
 
@@ -160,7 +160,7 @@ const siteMutation = {
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Site ${args.where.name} delete successed.`,
+        customResult: `Site ${args.where.name} deleted by ${user.displayName}`,
         userId: user.id
       });
 

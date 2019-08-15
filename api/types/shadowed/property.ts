@@ -13,6 +13,16 @@ export interface ShadowedPropertyCreateInput {
   meta?: Maybe<Json>;
 }
 
+export interface ShadowedPropertyUpdateInput {
+  propertyId?: Maybe<string>;
+  name?: Maybe<string>;
+  description?: Maybe<string>;
+  i18n?: Maybe<i18nUpdateManyInput>;
+  logs?: Maybe<ShadowedLogUpdateManyInput>;
+  creator?: Maybe<ShadowedUserUpdateOneRequiredInput>;
+  meta?: Maybe<Json>;
+}
+
 export interface ShadowedPropertyUpdateDataInput {
   propertyId?: Maybe<string>;
   name?: Maybe<string>;

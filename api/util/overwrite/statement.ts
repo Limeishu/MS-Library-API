@@ -36,6 +36,10 @@ const statement = {
           }
           return ele;
         });
+      } else {
+        if (data.upsert.create) {
+          data.upsert.create.property.create.creator.connect = { id: user.id };
+        }
       }
     }
     return data;

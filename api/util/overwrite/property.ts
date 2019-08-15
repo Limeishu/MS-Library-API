@@ -1,5 +1,5 @@
 import { User } from '../../model';
-import { ShadowedPropertyCreateInput, ShadowedPropertyUpdateOneRequiredInput } from '../../types/shadowed/property';
+import { ShadowedPropertyCreateInput, ShadowedPropertyUpdateOneRequiredInput, ShadowedPropertyUpdateInput } from '../../types/shadowed/property';
 
 import overWrite from '.';
 
@@ -13,6 +13,14 @@ const property = {
   },
 
   update: (
+    data: ShadowedPropertyUpdateInput,
+    user: User
+  ): ShadowedPropertyUpdateInput => {
+    data.creator.connect = { id: user.id };
+    return data;
+  },
+
+  updateOne: (
     data: ShadowedPropertyUpdateOneRequiredInput,
     user: User
   ): ShadowedPropertyUpdateOneRequiredInput => {
@@ -29,8 +37,8 @@ const property = {
         data.upsert.create = overWrite.property.create(data.create, user);
       }
 
-      if (data.upsert.update) {
-        data.update.creator.connect = { id: user.id };
+      if (data.upsert.update && data.upsert.update.creator) {
+        data.upsert.update.creator.connect = { id: user.id };
       }
     }
 

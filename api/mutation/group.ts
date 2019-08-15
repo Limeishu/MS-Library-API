@@ -45,7 +45,7 @@ const groupMutation = {
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Group ${args.data.name} create successed.`,
+        customResult: `Group ${args.data.name} created by ${user.displayName}.`,
         userId: user.id
       });
 
@@ -103,7 +103,7 @@ const groupMutation = {
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Group ${args.data.name} update successed.`,
+        customResult: `Group ${args.data.name} updated by ${user.displayName}`,
         userId: user.id
       });
 
@@ -161,7 +161,7 @@ const groupMutation = {
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Group ${args.where.name} update successed.`,
+        customResult: `Group ${args.where.name} deleted by ${user.displayName}`,
         userId: user.id
       });
 

@@ -132,6 +132,16 @@ const postMutation = {
       }
 
       const targetPost: Post = await prisma.post(args.where);
+
+      if (!targetPost) {
+        // Write Log
+        throw await log.warn({
+          ip: context.request.ip,
+          code: '#ERR_M001',
+          userId: author.id
+        });
+      }
+
       const permission: PermissionTypePayload = await group.permission.$expand(author, 'post');
       const relation: RelationPayload = await group.relation.$check(author, targetPost.id, 'post');
 
@@ -149,7 +159,7 @@ const postMutation = {
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Post ${targetPost.title} updated by ${author.displayName}.`,
+        customResult: `Post ${targetPost.title} deleted by ${author.displayName}.`,
         userId: author.id
       });
 

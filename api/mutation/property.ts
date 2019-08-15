@@ -1,14 +1,14 @@
 import { Context } from 'graphql-yoga/dist/types';
 
-import { prisma, Item, ItemCreateInput, User, ItemUpdateInput, ItemWhereUniqueInput } from '../model';
-import { ShadowedItemCreateInput, ShadowedItemUpdateInput } from '../types/shadowed/item';
+import { prisma, Property, User, PropertyWhereUniqueInput } from '../model';
+import { ShadowedPropertyCreateInput, ShadowedPropertyUpdateInput } from '../types/shadowed/property';
 import group, { PermissionTypePayload, RelationPayload } from '../auth/group';
 import log from '../util/log';
 import auth from '../auth';
 import overWrite from '../util/overwrite';
 
-const itemMutation = {
-  async createItem(_: any, args: { data: ShadowedItemCreateInput }, context: Context): Promise<Item> {
+const propertyMutation = {
+  async createProperty(_: any, args: { data: ShadowedPropertyCreateInput }, context: Context): Promise<Property> {
     try {
       const user: User = await auth.token.parse(context.request);
 
@@ -20,7 +20,7 @@ const itemMutation = {
         });
       }
 
-      const permission: PermissionTypePayload = await group.permission.$expand(user, 'item');
+      const permission: PermissionTypePayload = await group.permission.$expand(user, 'property');
 
       if (!permission.owner.write) {
         // Write Log
@@ -31,31 +31,31 @@ const itemMutation = {
         });
       }
 
-      const itemExist: Item = await prisma.item({ itemId: args.data.itemId });
+      const propertyExist: Property = await prisma.property({ propertyId: args.data.propertyId });
 
-      if (itemExist) {
+      if (propertyExist) {
         // Write Log
         throw await log.warn({
           ip: context.request.ip,
-          code: '#ERR_I000',
-          customResult: `${itemExist.itemId} ${itemExist.name}`,
+          code: '#ERR_P000',
+          customResult: `${propertyExist.propertyId} ${propertyExist.name}`,
           userId: user.id
         });
       }
 
       // Force overwrite user connect to prevent fake identity
-      args.data = overWrite.item.create(args.data, user);
+      args.data = overWrite.property.create(args.data, user);
 
-      const itemCreated: Item = await prisma.createItem(args.data);
+      const propertyCreated: Property = await prisma.createProperty(args.data);
 
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Item ${args.data.name} create successed.`,
+        customResult: `Property ${args.data.name} create successed.`,
         userId: user.id
       });
 
-      return itemCreated;
+      return propertyCreated;
     } catch (error) {
       // Write Log
       if (!/#ERR_/.test(error.message)) {
@@ -70,7 +70,7 @@ const itemMutation = {
     }
   },
 
-  async updateItem(_: any, args: { data: ShadowedItemUpdateInput, where: ItemWhereUniqueInput }, context: Context): Promise<Item> {
+  async updateProperty(_: any, args: { data: ShadowedPropertyUpdateInput, where: PropertyWhereUniqueInput }, context: Context): Promise<Property> {
     try {
       const user: User = await auth.token.parse(context.request);
 
@@ -82,19 +82,19 @@ const itemMutation = {
         });
       }
 
-      const targetItem: Item = await prisma.item(args.where);
+      const targetProperty: Property = await prisma.property(args.where);
 
-      if (!targetItem) {
+      if (!targetProperty) {
         // Write Log
         throw await log.warn({
           ip: context.request.ip,
-          code: '#ERR_I001',
+          code: '#ERR_P001',
           userId: user.id
         });
       }
 
-      const permission: PermissionTypePayload = await group.permission.$expand(user, 'item');
-      const relation: RelationPayload = await group.relation.$check(user, targetItem.id, 'item');
+      const permission: PermissionTypePayload = await group.permission.$expand(user, 'property');
+      const relation: RelationPayload = await group.relation.$check(user, targetProperty.id, 'property');
 
       if (!(permission.anyone.write || (permission.group.write && relation.isMember) || (permission.owner.write && relation.isOwner))) {
         // Write Log
@@ -106,18 +106,18 @@ const itemMutation = {
       }
 
       // Force overwrite user connect to prevent fake identity
-      args.data = overWrite.item.update(args.data, user);
+      args.data = overWrite.property.update(args.data, user);
 
-      const itemUpdated: Item = await prisma.updateItem({ ...args });
+      const propertyUpdated: Property = await prisma.updateProperty({ ...args });
 
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Item ${targetItem.name} updated by ${user.displayName}.`,
+        customResult: `Property ${targetProperty.name} updated by ${user.displayName}.`,
         userId: user.id
       });
 
-      return itemUpdated;
+      return propertyUpdated;
     } catch (error) {
       // Write Log
       if (!/#ERR_/.test(error.message)) {
@@ -132,7 +132,7 @@ const itemMutation = {
     }
   },
 
-  async deleteItem(_: any, args: { where: ItemWhereUniqueInput }, context: Context): Promise<Item> {
+  async deleteProperty(_: any, args: { where: PropertyWhereUniqueInput }, context: Context): Promise<Property> {
     try {
       const user: User = await auth.token.parse(context.request);
 
@@ -144,19 +144,19 @@ const itemMutation = {
         });
       }
 
-      const targetItem: Item = await prisma.item(args.where);
+      const targetProperty: Property = await prisma.property(args.where);
 
-      if (!targetItem) {
+      if (!targetProperty) {
         // Write Log
         throw await log.warn({
           ip: context.request.ip,
-          code: '#ERR_I001',
+          code: '#ERR_P001',
           userId: user.id
         });
       }
 
-      const permission: PermissionTypePayload = await group.permission.$expand(user, 'item');
-      const relation: RelationPayload = await group.relation.$check(user, targetItem.id, 'item');
+      const permission: PermissionTypePayload = await group.permission.$expand(user, 'property');
+      const relation: RelationPayload = await group.relation.$check(user, targetProperty.id, 'property');
 
       if (!(permission.anyone.delete || (permission.group.delete && relation.isMember) || (permission.owner.delete && relation.isOwner))) {
         // Write Log
@@ -167,16 +167,16 @@ const itemMutation = {
         });
       }
 
-      const itemDeleted: Item = await prisma.deleteItem(args.where);
+      const propertyDeleted: Property = await prisma.deleteProperty(args.where);
 
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Item ${targetItem.name} deleted by ${user.displayName}.`,
+        customResult: `Property ${targetProperty.name} deleted by ${user.displayName}.`,
         userId: user.id
       });
 
-      return itemDeleted;
+      return propertyDeleted;
     } catch (error) {
       // Write Log
       if (!/#ERR_/.test(error.message)) {
@@ -192,4 +192,4 @@ const itemMutation = {
   }
 };
 
-export default itemMutation;
+export default propertyMutation;

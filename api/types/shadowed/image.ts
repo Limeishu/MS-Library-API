@@ -18,6 +18,15 @@ export interface ShadowedImageUpdateDataInput {
   meta?: Maybe<Json>;
 }
 
+export interface ShadowedImageUpdateOneInput {
+  create?: Maybe<ShadowedImageCreateInput>;
+  update?: Maybe<ShadowedImageUpdateDataInput>;
+  upsert?: Maybe<ShadowedImageUpsertNestedInput>;
+  delete?: Maybe<boolean>;
+  disconnect?: Maybe<boolean>;
+  connect?: Maybe<ImageWhereUniqueInput>;
+}
+
 export interface ShadowedImageCreateManyInput {
   create?: Maybe<ShadowedImageCreateInput[] | ShadowedImageCreateInput>;
   connect?: Maybe<ImageWhereUniqueInput[] | ImageWhereUniqueInput>;
@@ -41,6 +50,11 @@ export interface ShadowedImageUpdateManyInput {
   updateMany?: Maybe<
     ImageUpdateManyWithWhereNestedInput[] | ImageUpdateManyWithWhereNestedInput
   >;
+}
+
+export interface ShadowedImageUpsertNestedInput {
+  update: ShadowedImageUpdateDataInput;
+  create: ShadowedImageCreateInput;
 }
 
 export interface ShadowedImageUpdateWithWhereUniqueNestedInput {

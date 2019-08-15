@@ -11,7 +11,7 @@ const item = {
     data.creator.connect = { id: user.id };
 
     if (data.images.create) {
-      data.images.create = overWrite.image(data.images.create, user);
+      data.images.create = overWrite.image.create(data.images.create, user);
     }
 
     if (data.statements.create) {
@@ -28,7 +28,7 @@ const item = {
     data.creator.connect = { id: user.id };
 
     if (data.images.create) {
-      data.images.create = overWrite.image(data.images.create, user);
+      data.images.create = overWrite.image.create(data.images.create, user);
     }
 
     if (data.statements) {

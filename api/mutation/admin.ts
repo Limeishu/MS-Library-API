@@ -46,7 +46,7 @@ const adminMutation = {
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Admin ${args.data.name} create successed.`,
+        customResult: `Admin ${args.data.name} created by ${user.displayName}.`,
         userId: user.id
       });
 
@@ -103,7 +103,7 @@ const adminMutation = {
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Admin ${args.data.name} update successed.`,
+        customResult: `Admin ${args.data.name} updated by ${user.displayName}`,
         userId: user.id
       });
 
@@ -160,7 +160,7 @@ const adminMutation = {
       // Write Log
       await log.write({
         ip: context.request.ip,
-        customResult: `Admin ${args.where.name} delete successed.`,
+        customResult: `Admin ${args.where.name} deleted by ${user.displayName}`,
         userId: user.id
       });
 
