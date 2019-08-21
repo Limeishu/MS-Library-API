@@ -5,6 +5,7 @@ import newsMutation from './news';
 import postMutation from './post';
 import adminMutation from './admin';
 import siteMutation from './site';
+import userMutation from './user';
 
 const Mutation = {
   ...groupMutation,
@@ -13,7 +14,8 @@ const Mutation = {
   ...newsMutation,
   ...postMutation,
   ...adminMutation,
-  ...siteMutation
+  ...siteMutation,
+  ...userMutation
 };
 
 export default Mutation;
