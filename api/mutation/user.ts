@@ -7,6 +7,33 @@ import auth from '../auth';
 import overWrite from '../util/overwrite';
 
 const userMutation = {
+  async verifyUser(_: any, args: any, context: Context): Promise<User> {
+    try {
+      const user: User = await auth.token.parse(context.request);
+
+      if (!user) {
+        // Write Log
+        throw await log.warn({
+          ip: context.request.ip,
+          code: '#ERR_U00F'
+        });
+      }
+
+      return user;
+    } catch (error) {
+      // Write Log
+      if (!/#ERR_/.test(error.message)) {
+        throw await log.error({
+          ip: context.request.ip,
+          code: '#ERR_FFFF',
+          customResult: error.message
+        });
+      }
+
+      throw new Error(error.message);
+    }
+  },
+
   async updateUser(_: any, args: { data: UserUpdateInput, where: UserWhereUniqueInput }, context: Context): Promise<User> {
     try {
       const user: User = await auth.token.parse(context.request);
