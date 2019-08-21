@@ -29,11 +29,28 @@ const server = new GraphQLServer({
   })
 });
 
+const allowedOrigins = [
+  `https://${process.env.SITE_DOMAIN}`,
+  `https://api.${process.env.SITE_DOMAIN}`
+];
+
 server.express.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal', ...process.env.TRUST_PROXYS.split(',')]);
 
 server.express.use(cors({
   credentials: true,
-  origin: 'https://mslib.tw'
+  origin: (origin, callback) => {
+    // allow requests with no origin
+    // (like mobile apps or curl requests)
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (!allowedOrigins.includes(origin)) {
+      return callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'), false);
+    }
+
+    return callback(null, true);
+  }
 }));
 
 server.express.use(bodyParser.json());

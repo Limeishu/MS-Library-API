@@ -9,6 +9,7 @@ import overWrite from '../util/overwrite';
 const userMutation = {
   async verifyUser(_: any, args: any, context: Context): Promise<User> {
     try {
+      context.response.header('Access-Control-Allow-Origin', `https://${process.env.SITE_DOMAIN}`);
       const user: User = await auth.token.parse(context.request);
 
       if (!user) {
