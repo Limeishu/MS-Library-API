@@ -11,7 +11,7 @@ const article = {
   ): ShadowedNewsCreateInput | ShadowedPostCreateInput => {
     data.author.connect = { id: user.id };
 
-    if (data.banner.create) {
+    if (data.banner && data.banner.create) {
       data.banner.create = overWrite.image.create(data.banner.create, user);
     }
 
@@ -24,11 +24,11 @@ const article = {
   ): ShadowedNewsUpdateInput | ShadowedPostUpdateInput => {
     data.author.connect = { id: user.id };
 
-    if (data.banner.create) {
+    if (data.banner && data.banner.create) {
       data.banner.create = overWrite.image.create(data.banner.create, user);
     }
 
-    if (data.banner.upsert) {
+    if (data.banner && data.banner.upsert) {
       if (Array.isArray(data.banner.upsert)) {
         data.banner.upsert = data.banner.upsert.map(ele => {
           if (Object.keys(ele)[0] === 'create') {

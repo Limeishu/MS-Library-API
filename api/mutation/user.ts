@@ -1,12 +1,39 @@
 import { Context } from 'graphql-yoga/dist/types';
 
-import { prisma, User, UserCreateInput, UserUpdateInput, UserWhereUniqueInput } from '../model';
+import { prisma, User, UserUpdateInput, UserWhereUniqueInput } from '../model';
 import group, { PermissionTypePayload, RelationPayload } from '../auth/group';
 import log from '../util/log';
 import auth from '../auth';
 import overWrite from '../util/overwrite';
 
 const userMutation = {
+  async verify(_: any, args: null, context: Context): Promise<User> {
+    try {
+      const user: User = await auth.token.parse(context.request);
+
+      if (!user) {
+        // Write Log
+        throw await log.warn({
+          ip: context.request.ip,
+          code: '#ERR_U00F'
+        });
+      }
+
+      return user;
+    } catch (error) {
+      // Write Log
+      if (!/#ERR_/.test(error.message)) {
+        throw await log.error({
+          ip: context.request.ip,
+          code: '#ERR_FFFF',
+          customResult: error.message
+        });
+      }
+
+      throw new Error(error.message);
+    }
+  },
+
   async updateUser(_: any, args: { data: UserUpdateInput, where: UserWhereUniqueInput }, context: Context): Promise<User> {
     try {
       const user: User = await auth.token.parse(context.request);

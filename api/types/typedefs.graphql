@@ -2966,6 +2966,7 @@ type Mutation {
   upsertTheme(where: ThemeWhereUniqueInput!, create: ThemeCreateInput!, update: ThemeUpdateInput!): Theme!
   deleteTheme(where: ThemeWhereUniqueInput!): Theme
   deleteManyThemes(where: ThemeWhereInput): BatchPayload!
+  verify: User!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -3622,7 +3623,7 @@ type PageInfo {
 
 type PageMeta {
   id: UUID!
-  charset: String!
+  charset: String
   name: String
   property: String
   content: String

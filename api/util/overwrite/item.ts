@@ -10,11 +10,11 @@ const item = {
   ): ShadowedItemCreateInput => {
     data.creator.connect = { id: user.id };
 
-    if (data.images.create) {
+    if (data.images && data.images.create) {
       data.images.create = overWrite.image.create(data.images.create, user);
     }
 
-    if (data.statements.create) {
+    if (data.statements && data.statements.create) {
       data.statements.create = overWrite.statement.create(data.statements.create, user);
     }
 
@@ -27,7 +27,7 @@ const item = {
   ): ShadowedItemUpdateInput => {
     data.creator.connect = { id: user.id };
 
-    if (data.images.create) {
+    if (data.images && data.images.create) {
       data.images.create = overWrite.image.create(data.images.create, user);
     }
 

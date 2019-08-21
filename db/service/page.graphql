@@ -16,7 +16,7 @@ type PageHead {
 type PageMeta {
   id: UUID! @unique @id
 # ---
-  charset: String! @default(value: "UTF-8")
+  charset: String @default(value: "UTF-8")
   name: String
   property: String
   content: String

@@ -56,7 +56,7 @@ const image = {
     }
 
     if (data.upsert) {
-      if (data.upsert.create) {
+      if (data.upsert.create && data.upsert.create.file && data.upsert.create.file.create) {
         data.upsert.create.file.create.uploadBy.connect = { id: user.id };
       }
 

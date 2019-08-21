@@ -1,4 +1,4 @@
-import { Maybe, UUID, Json, LogWhereUniqueInput, EventCreateOneInput } from '../../model';
+import { Maybe, UUID, Json, EventCreateOneInput } from '../../model';
 import { ShadowedUserCreateOneInput } from './user';
 
 export interface ShadowedLogCreateInput {

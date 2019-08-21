@@ -1,6 +1,6 @@
 import { Context } from 'graphql-yoga/dist/types';
 
-import { prisma, Post, PostCreateInput, User, PostUpdateInput, PostWhereUniqueInput } from '../model';
+import { prisma, Post, User, PostWhereUniqueInput } from '../model';
 import group, { PermissionTypePayload, RelationPayload } from '../auth/group';
 import log from '../util/log';
 import auth from '../auth';

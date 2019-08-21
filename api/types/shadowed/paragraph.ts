@@ -1,4 +1,4 @@
-import { Maybe, UUID, Json, i18nCreateManyInput, ParagraphWhereUniqueInput, Int, ParagraphType, MarkupCreateManyInput, ParagraphScalarWhereInput, ParagraphUpdateManyWithWhereNestedInput, MarkupUpdateManyInput } from '../../model';
+import { Maybe, UUID, Json, ParagraphWhereUniqueInput, Int, ParagraphType, MarkupCreateManyInput, ParagraphScalarWhereInput, ParagraphUpdateManyWithWhereNestedInput, MarkupUpdateManyInput } from '../../model';
 import { ShadowedQuoteCreateManyInput, ShadowedQuoteUpdateManyInput } from './quote';
 import { ShadowedReplyCreateManyInput, ShadowedReplyUpdateManyInput } from './reply';
 
