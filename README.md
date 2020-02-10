@@ -31,3 +31,6 @@ npm run lint
 # lint with fix
 npm run lint:fix
 ```
+
+## Document
+[MS-Library Tech Specification](https://hackmd.io/aFnj0d7wS_O_FoY9f9nYAw)
